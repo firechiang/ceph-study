@@ -35,10 +35,10 @@ $ scp /etc/hosts root@server002:/etc/                                           
 
 #### 三、Ceph-Deploy节点免密码登陆集群所有节点（在A机器生成一对公钥私钥，将公钥拷贝到想要登录的主机）
 ```bash
-$ ssh-keygen                                                                              # 生成私钥和公钥（如果已经有了就不需要执行了）
-$ ssh-copy-id -i ~/.ssh/id_rsa.pub server001                                              # 将公钥拷贝到 server001上（这样我们就可以直接免密码登录server001了）
-$ ssh server001                                                                           # 测试面密码登陆
-$ exit                                                                                    # 退出登录
+$ ssh-keygen                                                                            # 生成私钥和公钥（如果已经有了就不需要执行了）
+$ ssh-copy-id -i ~/.ssh/id_rsa.pub server001                                            # 将公钥拷贝到 server001上（这样我们就可以直接免密码登录server001了）
+$ ssh server001                                                                         # 测试面密码登陆
+$ exit                                                                                  # 退出登录
 ```
 
 #### 四、安装时间同步器和同步机器时间（集群的每台机器都要安装）
