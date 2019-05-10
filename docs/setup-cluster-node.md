@@ -68,10 +68,10 @@ $ setenforce 0                                                                  
 
 #### 七、配置防火墙，开放Ceph必要端口，集群的每台机器都要配置(也可直接关闭防火墙)
 ```bash
-$ firewall-cmd --zone=public --add-port=6789/tcp --permanent
-$ firewall-cmd --zone=public --add-port=6800-7100/tcp --permanent
-$ firewall-cmd --reload
-$ firewall-cmd --zone=public --list-all
+$ sudo firewall-cmd --zone=public --add-service=ceph-mon --permanent
+$ sudo firewall-cmd --zone=public --add-service=ceph --permanent
+$ sudo firewall-cmd --reload
+$ sudo firewall-cmd --zone=public --list-all
 ```
 
 
