@@ -70,8 +70,9 @@ $ chmod 0440 /etc/sudoers.d/ceph-admin                                          
 #### 六、关闭 selinux，集群的每台机器都要关闭(测试环境建议永久关闭 selinux，然后再临时关闭selinux，就不需要重启机器了)
 ```bash
 $ cat /etc/selinux/config                                                               # 查看selinux信息
+$ sestatus                                                                              # 查看selinux状态
 $ sed -i "/^SELINUX/s/enforcing/disabled/" /etc/selinux/config                          # 永久关闭 selinux（重启机器生效）
-$ setenforce 0                                                                          # 临时关闭selinux
+$ setenforce 0                                                                          # 临时关闭selinux(建议使用，安装好了集群再重启机器就开启了selinux)
 ```
 
 #### 七、配置防火墙，开放Ceph必要端口，集群的每台机器都要配置(也可直接关闭防火墙)
@@ -85,9 +86,6 @@ $ sudo firewall-cmd --zone=public --list-all
 
 #### 八、Ceph-Deploy安装（我们安装的Ceph是 mimic 版本）
 ```bash
-$ sudo subscription-manager repos --enable=rhel-7-server-extras-rpms
-$ sudo yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
-
 $ cat << EOM > /etc/yum.repos.d/ceph.repo                                               # 创建ceph.repo文件内容如下
   [ceph-noarch]
   name=Ceph noarch packages
@@ -98,6 +96,5 @@ $ cat << EOM > /etc/yum.repos.d/ceph.repo                                       
   gpgkey=https://download.ceph.com/keys/release.asc
   EOM                                                                                   # 退出保存文件
 
-$ sudo yum update                                                                       # 更新yum源
-$ sudo yum install ceph-deploy                                                          # 安装Ceph-Deploy
+$ sudo yum install y ceph-deploy                                                        # 安装Ceph-Deploy
 ```
