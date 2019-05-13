@@ -51,7 +51,7 @@ $ exit                                                                          
 
 #### 四、安装时间同步器和同步机器时间（集群的每台机器都要安装）
 ```bash
-$ yum install -y ntp                                                               # 安装时间同步器
+$ yum install ntp                                                                  # 安装时间同步器
 $ rpm -qa|grep ntp                                                                 # 检查是否安装成功
 $ ntpdate ntp1.aliyun.com                                                          # 同步时间（每台都要同步，这里同步的是"阿里云"时间服务器）
 $ systemctl restart ntpd ntpdate && systemctl enable ntpd ntpdate                  # 重启时间同步器和开机启动自动同步时间（根据实际情况看要不要开启）
@@ -96,5 +96,5 @@ $ cat << EOM > /etc/yum.repos.d/ceph.repo                                       
   gpgkey=https://download.ceph.com/keys/release.asc
   EOM                                                                              # 退出保存文件
 
-$ sudo yum install y ceph-deploy                                                   # 安装Ceph-Deploy
+$ sudo yum install ceph-deploy                                                     # 安装Ceph-Deploy
 ```
