@@ -86,6 +86,7 @@ $ sudo firewall-cmd --zone=public --list-all
 
 #### 八、Ceph-Deploy安装，整个集群只需要安装一台（我们安装的Ceph是 mimic 版本）
 ```bash
+$ sudo yum install epel-release
 $ cat << EOM > /etc/yum.repos.d/ceph.repo                                          # 创建ceph.repo文件内容如下
   [ceph-noarch]
   name=Ceph noarch packages
