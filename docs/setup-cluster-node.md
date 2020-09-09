@@ -14,7 +14,7 @@ Librados: librados库是一种访问Rados的方便方法，支持PHP、Ruby、Ja
                            
 Rados Gateway(RGW)：提供对象存储服务。它使用librgw (Rados网关库)和librados，允许应用程序与Ceph对象存储建立连接。RGW提供了与Amazon S3和OpenStack Swift兼容的RESTful api接口。
 
-Ceph Monitors(MON)：Ceph监视器通过保存集群状态的映射来跟踪整个集群的健康状况(集群类似于Zookeeper的paxos算法)。
+Ceph Monitors(MON)：Ceph监视器通过保存集群状态的映射来跟踪整个集群的健康状况，就是集群协调服务(注意：该服务组件最好是基数个节点，因为它类似于Zookeeper的paxos算法)。
 
 Object Storage Device(OSD)： 对象存储组件，数据以对象的形式存储在OSD中。一个OSD守护进程绑定到集群中的一个物理磁盘。通常来说，Ceph集群中物理磁盘的总数与在每个物理磁盘上存储用户数据的OSD守护进程的总数相同。
 
