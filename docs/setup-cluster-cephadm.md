@@ -223,28 +223,9 @@ $ ceph status
             OSD count 0 < osd_pool_default_size 3
  
   services:
+    # Ceph Monitors(MON) 服务在这个三个节点上都有启动了
     mon: 3 daemons, quorum server006,server007,server008 (age 4m)
     mgr: server006.uscvav(active, since 86m), standbys: server007.jotdcz
-    osd: 0 osds: 0 up, 0 in
- 
-  data:
-    pools:   1 pools, 1 pgs
-    objects: 0 objects, 0 B
-    usage:   0 B used, 0 B / 0 B avail
-    pgs:     100.000% pgs unknown
-             1 unknown
- 
-[root@server006 home]# ceph status
-  cluster:
-    id:     c8febfce-f27a-11ea-a7a8-000c29356622
-    health: HEALTH_WARN
-            Reduced data availability: 1 pg inactive
-            OSD count 0 < osd_pool_default_size 3
- 
-  services:
-    # Ceph Monitors(MON) 服务在这个三个节点上都有启动了
-    mon: 3 daemons, quorum server002,server003,server004 (age 10m)
-    mgr: server006.uscvav(active, since 93m), standbys: server007.jotdcz
     osd: 0 osds: 0 up, 0 in
  
   data:
