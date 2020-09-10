@@ -178,13 +178,13 @@ INFO:cephadm:Using recent ceph image ceph/ceph:v15
     pgs:     100.000% pgs unknown
              1 unknown
              
-# 查看集群所有组件运行状态         
+# 查看集群所有组件运行状态（注意：如果当前机器没有 Ceph Monitors(MON)集群健康协调服务，该命令将无法执行）         
 $ ceph orch ps
 
-# 查看集群 mds 组件运行状态       
+# 查看集群 mds 组件运行状态（注意：如果当前机器没有 Ceph Monitors(MON)集群健康协调服务，该命令将无法执行）       
 $ ceph orch ps --daemon-type mds        
 
-# 查看集群 mgr 组件运行状态       
+# 查看集群 mgr 组件运行状态（注意：如果当前机器没有 Ceph Monitors(MON)集群健康协调服务，该命令将无法执行）       
 $ ceph orch ps --daemon-type mgr             
              
 # 开放两个Web界面的端口             
@@ -214,7 +214,7 @@ Added host 'server004'
 # 查看集群的所有节点
 $ ceph orch host ls
 
-# 查看集群状态
+# 查看集群状态（注意：如果当前机器没有 Ceph Monitors(MON)集群健康协调服务，该命令将无法执行）
 $ ceph status
   cluster:
     id:     c8febfce-f27a-11ea-a7a8-000c29356622
@@ -234,6 +234,45 @@ $ ceph status
     usage:   0 B used, 0 B / 0 B avail
     pgs:     100.000% pgs unknown
              1 unknown
+```
+
+#### 七、指定Ceph Monitors(MON)集群健康协调服务（类似于Zookeeper）部署在哪几台机器上（注意：如果我们没有指定Ceph Monitors(MON)集群健康协调服务的部署规则。每一个新的节点加入集群都会默认在该节点上安装一个Ceph Monitors(MON)（集群健康协调服务）最多装5个，所以我们要指定哪些机器安装Ceph Monitors(MON)集群健康协调服务，一般部署基数个即可）
+```bash
+# 指定server006,server007,server008机器安装Ceph Monitors(MON)集群健康协调服务（注意：以下节点必须包含引导节点，否则以后引导节点将无法控制集群）
+# 注意：以下命令在装有集群引导工具Cephadm和Ceph-Common的机器上执行，就是在集群引导机器上执行
+$ ceph orch apply mon server006,server007,server008
+Scheduled mon update...
+
+# 查看集群所有组件运行状态（注意查看哪几台服务器上有Ceph Monitors(MON)集群健康协调服务）    
+$ ceph orch ps
+```
+
+#### 八、部署Object Storage Device(OSD) 对象存储组件（注意：机器里面必须有一块已经创建好了主分区但没有子分区，没有格式化，没有挂载目录，空间大于5GB的硬盘。才能在该节点部署Object Storage Device(OSD) 对象存储组件。因为部署对象存储组件需要指定一块空硬盘，否则无法部署。以下命令在装有集群引导工具Cephadm和Ceph-Common的机器上执行，就是在集群引导机器上执行）
+```bash
+# 告诉Ceph可使用任何可用和未使用的存储设备
+$ ceph orch apply osd --all-available-devices
+Scheduled osd.all-available-devices update...
+
+
+# 在server002上部署Object Storage Device(OSD)对象存储组件，数据存储在/dev/sdb空硬盘上
+# 注意：每台机器每块硬盘只能执行一次这个命令否则报错
+$ ceph orch daemon add osd server002:/dev/sdb
+
+# 在server003上部署Object Storage Device(OSD)对象存储组件，数据存储在/dev/sdb空硬盘上
+# 注意：每台机器每块硬盘只能执行一次这个命令否则报错
+$ ceph orch daemon add osd server003:/dev/sdb
+
+# 在server004上部署Object Storage Device(OSD)对象存储组件，数据存储在/dev/sdb空硬盘上
+# 注意：每台机器每块硬盘只能执行一次这个命令否则报错
+$ ceph orch daemon add osd server004:/dev/sdb
+
+
+# 查看群集所有主机上的存储设备清单
+$ ceph orch device ls
+server002  /dev/sda  hdd   50.0G   False  LVM detected, locked, Insufficient space (<5GB) on vgs  
+server003  /dev/sda  hdd   50.0G   False  LVM detected, Insufficient space (<5GB) on vgs, locked  
+server004  /dev/sda  hdd   50.0G   False  LVM detected, Insufficient space (<5GB) on vgs, locked
+server004  /dev/sdb  hdd   10.0G   False  LVM detected, Insufficient space (<5GB) on vgs, locked
 ```
 
 #### 四、安装时间同步器和同步机器时间（集群的每台机器都要安装）
