@@ -104,8 +104,8 @@ $ mkdir -p /etc/ceph
 # cephadm bootstrap 命令使用说明可使用：cephadm bootstrap -h 命令查看
 $ cephadm bootstrap --mon-ip 192.168.78.129
 INFO:cephadm:Ceph Dashboard is now available at:
-
-	     URL: https://server002:8443/
+       # Ceph Dashboard访问地址密码（注意：首次访问需要修改密码）
+	    URL: https://server002:8443/
 	    User: admin
 	Password: tgdofrsp24
 
