@@ -303,3 +303,57 @@ ID  CLASS  WEIGHT   TYPE NAME           STATUS  REWEIGHT  PRI-AFF
 -7         0.00980      host server003                           
  2    hdd  0.00980          osd.2           up   1.00000  1.00000
 ```
+
+#### 九、创建修改存储池相关（客户端要使用Ceph必须有存储池）[官方中文文档](http://docs.ceph.org.cn/rados/operations/pools/)
+```bash
+# 查看集群当中所有存储池
+$ ceph osd lspools
+1 device_health_metrics（注意：这个存储池是集群创建时就自动创建好了的）
+2 test_pool
+3 my_pool
+
+# 创建一个名称叫test_pool的存储池
+$ ceph osd pool create test_pool
+
+# 设置test_pool存储池的副本数为2
+$ ceph osd pool set test_pool size 2
+
+# 设置test_pool存储池最多可存储10000个对象，最大存储容量为10240个字节，也就是10K大小（取消限制将值改为0即可）
+$ ceph osd pool set-quota data max_objects 10000 max_bytes 10240
+
+# 删除test_pool存储池
+$ ceph osd pool delete test_pool
+
+# 修改test_pool存储池的名称为test_pool1
+$ ceph osd pool rename test_pool test_pool1
+
+# 为test_pool存储池创建快照，名字叫 test_snap
+$ ceph osd pool mksnap test_pool test_snap
+
+# 删除test_pool存储池的test_snap快照
+$ ceph osd pool rmsnap test_pool test_snap
+```
+
+#### 十、客户端用户管理（客户端使用授权）[官方中文文档](http://docs.ceph.org.cn/rados/operations/user-management/)
+```bash
+# 进入Ceph数据目录（为了方便管理，创建好的客户端授权文件就放到这里）
+$ cd /etc/ceph
+
+# 创建用户 client.my_pool（注意：实际用户名是叫my_pool而client是用户类型（表示客户端），这是约定俗成命名方式）
+# 对mon组件有读取权限，对osd组件有读写执行权限但仅限于my_pool存储池（如果不指定存储池将对所有存储池有效）
+# 最后将授权秘钥写到当前目录 ceph.client.my_pool.keyring 文件里面
+$ ceph auth get-or-create client.my_pool mon 'allow r' osd 'allow rwx pool=my_pool' -o ceph.client.my_pool.keyring
+
+# 查看用户client.my_pool授权信息（key就是授权秘钥）
+$ ceph auth get client.my_pool
+[client.my_pool]
+  key = AQCPfqhh23XBCBAAzJ23aMUH48Kl3EKHn7Gbjg==
+  caps mon = "allow r"
+  caps osd = "allow rwx pool=my_pool"
+  
+# 修改用户client.my_pool相关权限
+$ ceph auth caps client.my_pool mon 'allow r' osd 'allow rwx pool=my_pool'
+  
+# 删除用户 client.my_pool
+$ ceph auth del client.my_pool
+```
