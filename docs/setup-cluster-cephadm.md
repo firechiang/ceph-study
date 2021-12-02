@@ -102,6 +102,7 @@ $ mkdir -p /etc/ceph
 # 4，向/etc/ceph/ceph.client.admin.keyring写入client.admin管理（特权！）secret key的副本
 # 5，将public key的副本写入/etc/ceph/ceph.pub
 # cephadm bootstrap 命令使用说明可使用：cephadm bootstrap -h 命令查看
+# --output-dir 指定数据存储目录
 $ cephadm bootstrap --mon-ip 192.168.78.129
 INFO:cephadm:Ceph Dashboard is now available at:
        # Ceph Dashboard访问地址密码（注意：首次访问需要修改密码）
@@ -197,7 +198,8 @@ $ https://192.168.83.143:8443/
 $ https://192.168.83.143:3000/           
 ```
 
-#### 六、添加节点到集群（注意：以下命令在装有集群引导工具Cephadm和Ceph-Common的机器上执行，就是在集群引导机器上执行）
+#### 六、添加节点到集群和删除节点（注意：以下命令在装有集群引导工具Cephadm和Ceph-Common的机器上执行，就是在集群引导机器上执行）
+##### 6.1、添加节点到集群
 ```bash
 # 将公钥拷贝到想要加入集群的机器上（这个就是实现免密登陆）
 $ ssh-copy-id -f -i /etc/ceph/ceph.pub root@server003
@@ -233,7 +235,23 @@ $ ceph status
     objects: 0 objects, 0 B
     usage:   0 B used, 0 B / 0 B avail
     pgs:     100.000% pgs unknown
-             1 unknown
+             1 unknown               
+```
+##### 6.2、彻底删除集群中的某个节点
+```bash
+# 清除server002节点上所有守护进程，以方便后面删除
+$ ceph orch host drain server002
+# 查看osd（对象存储）组件删除状态     
+$ ceph orch osd rm status  
+# 查看server002上是否还有守护进程
+$ ceph orch ps server002  
+# 如果server002上已经没有守护进程，执行下面命令将其删除
+$ ceph orch host rm server002  
+```
+
+##### 6.3 、如果主机离线且无法恢复，可以使用以下命令将其从集群中删除
+```bash
+$ ceph orch host rm server002 --offline --force
 ```
 
 #### 七、指定Ceph Monitors(MON)集群健康协调服务（类似于Zookeeper）部署在哪几台机器上（注意：如果我们没有指定Ceph Monitors(MON)集群健康协调服务的部署规则。每一个新的节点加入集群都会默认在该节点上安装一个Ceph Monitors(MON)（集群健康协调服务）最多装5个，所以我们要指定哪些机器安装Ceph Monitors(MON)集群健康协调服务，一般部署基数个即可）
