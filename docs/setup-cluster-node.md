@@ -1,17 +1,5 @@
 #### 一、集群组件介绍以及节点分布
 ```bash
-
-
-
-
-
-
-
-
-                           
-
-
-
 ----------|---------------|-----------------------------|----------------------|----------------------|------------------------------|
           |  Ceph-Deploy  |  Ceph metadata server(MDS)  |  Rados Gateway(RGW)  |  Ceph Monitors(MON)  |  Object Storage Device(OSD)  |
 ----------|---------------|-----------------------------|----------------------|----------------------|------------------------------|            
@@ -78,7 +66,7 @@ $ sudo firewall-cmd --zone=public --list-all
 #### 八、Ceph-Deploy安装，整个集群只需要安装一台（我们安装的Ceph是 mimic 版本）
 ```bash
 $ sudo yum install epel-release
-$ cat << EOM > /etc/yum.repos.d/ceph.repo                                          # 创建ceph.repo文件内容如下
+$ cat >>/etc/yum.repos.d/ceph.repo<<EOM                                           # 创建ceph.repo文件内容如下
   [ceph-noarch]
   name=Ceph noarch packages
   baseurl=https://download.ceph.com/rpm-mimic/el7/noarch
