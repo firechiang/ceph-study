@@ -336,14 +336,16 @@ $ ceph osd pool rmsnap test_pool test_snap
 
 #### 十、创建cephfs文件系统元数据存储服务（Ceph Metadata Server(MDS)）
 ```bash
-# 创建cephfs文件系统
+# 创建cephfs文件系统（注意：文件系统的名字可以随便指定，建议叫cephfs）
 #$ ceph fs volume create cephfs（这个是老版本的写法不能执行元数据和数据存储在哪个存储池里面）
 $ ceph fs new cephfs <元数据存储池名称> <数据存储池名称>
 
-# 拉取cephfs mds服务并指定副本数3
+# 拉取cephfs MDS元数据存储服务跑起来并指定副本数3
+#注意：如果已有元数据存储服务正在跑，这一步就可以不需要执行了
 $ ceph orch apply mds cephfs --placement="3"
 
 # 将cephfs文件系统元数据存储服务添加到server001节点
+# 注意：如果已有元数据存储服务正在跑，这一步就可以不需要执行了
 $ ceph orch daemon add mds cephfs server001
 
 # 查看所有文件系统元数据存储服务情况
