@@ -291,4 +291,15 @@ server002  /dev/sda  hdd   50.0G   False  LVM detected, locked, Insufficient spa
 server003  /dev/sda  hdd   50.0G   False  LVM detected, Insufficient space (<5GB) on vgs, locked  
 server004  /dev/sda  hdd   50.0G   False  LVM detected, Insufficient space (<5GB) on vgs, locked
 server004  /dev/sdb  hdd   10.0G   False  LVM detected, Insufficient space (<5GB) on vgs, locked
+
+# 查看集群所有osd（对象存储）磁盘树型结构
+$ ceph osd tree
+ID  CLASS  WEIGHT   TYPE NAME           STATUS  REWEIGHT  PRI-AFF
+-1         0.02939  root default                                 
+-3         0.00980      host server001                           
+ 0    hdd  0.00980          osd.0           up   1.00000  1.00000
+-5         0.00980      host server002                           
+ 1    hdd  0.00980          osd.1           up   1.00000  1.00000
+-7         0.00980      host server003                           
+ 2    hdd  0.00980          osd.2           up   1.00000  1.00000
 ```
