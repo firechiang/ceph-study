@@ -334,7 +334,24 @@ $ ceph osd pool mksnap test_pool test_snap
 $ ceph osd pool rmsnap test_pool test_snap
 ```
 
-#### 十、客户端用户管理（客户端使用授权）[官方中文文档](http://docs.ceph.org.cn/rados/operations/user-management/)
+#### 十、创建cephfs文件系统元数据存储服务（Ceph Metadata Server(MDS)）
+```bash
+# 创建cephfs文件系统
+#$ ceph fs volume create cephfs（这个是老版本的写法不能执行元数据和数据存储在哪个存储池里面）
+$ ceph fs new cephfs <元数据存储池名称> <数据存储池名称>
+
+# 拉取cephfs mds服务并指定副本数3
+$ ceph orch apply mds cephfs --placement="3"
+
+# 将cephfs文件系统元数据存储服务添加到server001节点
+$ ceph orch daemon add mds cephfs server001
+
+# 查看所有文件系统元数据存储服务情况
+$ ceph mds stat
+cephfs:1 testfs:1 {cephfs:0=cephfs.server002.qpitcw=up:active,testfs:0=testfs.server002.jnmgai=up:active} 5 up:standby
+```
+
+#### 十一、客户端用户管理（客户端使用授权）[官方中文文档](http://docs.ceph.org.cn/rados/operations/user-management/)
 ```bash
 # 进入Ceph数据目录（为了方便管理，创建好的客户端授权文件就放到这里）
 $ cd /etc/ceph
@@ -356,4 +373,39 @@ $ ceph auth caps client.my_pool mon 'allow r' osd 'allow rwx pool=my_pool'
   
 # 删除用户 client.my_pool
 $ ceph auth del client.my_pool
+```
+
+#### 十二、Ceph客户端简单使用
+##### 12.1、安装Ceph客户端
+```bash
+# 查看Linux内核是否大于2.6（只要内核大于2.6就默认支持块设备）
+$ uname -r
+# 查看系统是否支持modprobe命令
+$ modprobe rbd
+
+# 安装Ceph客户端（注意：安装Ceph客户端需要添加Ceph软件源，软件源如何添加文档上面有）
+$ yum install ceph -y
+```
+##### 12.2、创建Ceph配置文件，就是指定集群健康协调服务的各个节点，相当于指定Zookeeper集群（可以直接将Ceph集群配置文件拷贝过来，文件是Ceph节点Ceph数据目录ceph.conf文件）
+```bash
+# fsid 是Ceph集群ID，mon_host 是Ceph Monitors(MON)集群健康协调服务的各个节点
+$ cat >>/etc/ceph/ceph.conf<<EOF
+[global]
+        fsid = 92ba74e6-528a-11ec-afbc-52540011ed8e
+        mon_host = [v2:192.168.122.253:3300/0,v1:192.168.122.253:6789/0]
+EOF
+```
+
+##### 12.3、创建访问Ceph集群授权Key文件（就是客户端访问集群的Token文件，这个文件的内容我们在上面已经创建好了）
+```bash
+$ cat >>/etc/ceph/ceph.client.my_pool.keyring<<EOF
+[client.my_pool]
+        key = AQCdgKhhPxHKERAAA7TEsWOiY0wi9kwrc039Uw==
+EOF  
+```
+
+##### 12.4、挂载 Ceph 文件系统
+```bash
+# 查看Ceph集群信息
+$ ceph --name client.my_pool -s
 ```
