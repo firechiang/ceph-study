@@ -12,10 +12,18 @@
  
 #### 二、[使用Cephadm搭建集群（推荐生产使用）][1] 
 #### 三、[手动搭建集群（已废弃）][2]
-#### 四、[创建修改存储池相关（集群使用必须有存储池）][3]
+#### 四、[创建修改存储池以及快照相关（集群使用必须有存储池）][3]
+#### 五、[创建修改删除Ceph Metadata Server(MDS)（文件系统元数据存储服务集群）][4]
+#### 六、[创建修改删除CephFs文件系统（创建文件系统必须有Ceph Metadata Server(MDS)集群）][5]
+#### 七、[客户端用户授权管理（生成客户端用户使用Ceph集群所需要的Token）][6]
+#### 八、[Ceph客户端简单使用][7]
 
 ![image](https://github.com/firechiang/ceph-study/blob/master/image/ceph-framework.jpg)
 
 [1]: https://github.com/firechiang/ceph-study/tree/master/docs/setup-cluster-cephadm.md
 [2]: https://github.com/firechiang/ceph-study/tree/master/docs/setup-cluster-node.md
 [3]: https://github.com/firechiang/ceph-study/tree/master/docs/edit-pool.md
+[4]: https://github.com/firechiang/ceph-study/tree/master/docs/metat-server.md
+[5]: https://github.com/firechiang/ceph-study/tree/master/docs/edit-cephfs.md
+[6]: https://github.com/firechiang/ceph-study/tree/master/docs/client-auth.md
+[7]: https://github.com/firechiang/ceph-study/tree/master/docs/client-simple-use.md
