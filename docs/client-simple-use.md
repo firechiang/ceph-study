@@ -12,7 +12,7 @@ $ yum install ceph -y
 ```bash
 # 创建Ceph集群配置文件到/etc/ceph/ceph.conf
 # 可以直接在对应的节点上执行sudo ceph config generate-minimal-conf命令将输出信息拷贝过来
-# 注意：server001是Ceph集群引导节点安装有Ceph且有MON服务
+# 注意：server001是Ceph集群引导节点，安装有Ceph且有MON服务
 $ ssh root@server001 "sudo ceph config generate-minimal-conf" | sudo tee /etc/ceph/ceph.conf
 
 # 添加权限
