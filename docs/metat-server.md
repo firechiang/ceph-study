@@ -1,5 +1,4 @@
-#### 一、创建或修改Ceph Metadata Server(MDS)集群
-##### （注意：以下命令在装有Cephadm工具的节点上执行）
+#### 一、创建或修改Ceph Metadata Server(MDS)集群（注意：以下命令在装有Cephadm工具的节点上执行）
 ```bash
 # 创建或调整文件系统元数据存储服务节点
 # cephfs 是元数据存储服务集群名称（如果是创建的话名字可以随便起）

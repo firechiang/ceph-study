@@ -1,5 +1,4 @@
-#### 一、客户端用户授权管理[官方中文文档](http://docs.ceph.org.cn/rados/operations/user-management/)
-##### （注意：以下命令在装有Cephadm工具的节点上执行）
+#### 一、客户端用户授权管理[官方中文文档](http://docs.ceph.org.cn/rados/operations/user-management/)（注意：以下命令在装有Cephadm工具的节点上执行）
 ```bash
 # 进入Ceph数据目录（为了方便管理，创建好的客户端授权文件就放到这里）
 $ cd /etc/ceph

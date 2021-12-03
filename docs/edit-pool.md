@@ -1,5 +1,4 @@
-#### 一、创建存储池[官方中文文档](http://docs.ceph.org.cn/rados/operations/pools/)
-##### （注意：以下命令在装有Cephadm工具的节点上执行）
+#### 一、创建存储池[官方中文文档](http://docs.ceph.org.cn/rados/operations/pools/)（注意：以下命令在装有Cephadm工具的节点上执行）
 ```bash
 # 查看集群当中所有存储池
 $ ceph osd lspools
