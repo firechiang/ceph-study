@@ -41,7 +41,7 @@ $ ceph --name client.client_cephfs
 $ mkdir -p /home/mycephfs
 
 # 挂载Ceph文件系统
-# :/                   客户端目录挂载到Ceph文件系统的根目录/（注意：:号前面还可以指定Ceph集群MON节点地址和端口）
+# :/             客户端目录挂载到Ceph文件系统的根目录/（注意：:号前面还可以指定Ceph集群MON节点地址和端口）
 # /home/mycephfs 客户端要挂载Ceph文件系统的目录
 # name           指定Ceph集群授权用户
 # fs             指定Ceph文件系统名称（我们的Ceph集群可能创建了多个文件系统）
