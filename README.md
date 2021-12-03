@@ -18,6 +18,7 @@
 #### 七、[客户端用户授权管理（生成客户端用户使用Ceph集群所需要的Token）][6]
 #### 八、[Ceph客户端简单使用][7]
 #### 九、[集群服务管理相关（停止，启动，重启相关服务）][8]
+#### 十、[WEB管理界面出现警告或错误相关处理][9]
 
 ![image](https://github.com/firechiang/ceph-study/blob/master/image/ceph-framework.jpg)
 
@@ -29,3 +30,4 @@
 [6]: https://github.com/firechiang/ceph-study/tree/master/docs/client-auth.md
 [7]: https://github.com/firechiang/ceph-study/tree/master/docs/client-simple-use.md
 [8]: https://github.com/firechiang/ceph-study/tree/master/docs/service-manager.md
+[9]: https://github.com/firechiang/ceph-study/tree/master/docs/waring-handler.md
