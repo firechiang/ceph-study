@@ -334,6 +334,54 @@ $ ceph osd pool mksnap test_pool test_snap
 $ ceph osd pool rmsnap test_pool test_snap
 ```
 
+#### 十、创建修改删除Ceph Metadata Server(MDS)（文件系统元数据存储服务集群）
+##### 10.1、创建或修改Ceph Metadata Server(MDS)集群
+```bash
+# 创建或调整文件系统元数据存储服务节点
+# cephfs 是元数据存储服务集群名称（如果是创建的话名字可以随便起）
+# --placement 指定集群节点数量
+$ ceph orch apply mds cephfs --placement="3"
+```
+
+##### 10.2、删除Ceph Metadata Server(MDS)集群
+```bash
+# 先标记名字叫cephfs的Ceph Metadata Server(MDS)集群为禁用状态
+# 注意：MDS服务集群名称在WEB控制界面Cluster > Services栏可以查看
+$ ceph mds fail mds.cephfs
+
+# 再删除名字叫cephfs的Ceph Metadata Server(MDS)集群服务
+$ ceph orch rm mds.cephfs
+```
+
+#### 十一、创建删除CephFs文件系统
+##### 11.1、创建CephFs文件系统（注意：创建文件系统之前Ceph集群里面必须存在Ceph Metadata Server(MDS)（文件系统元数据存储服务集群））
+```bash
+# 查看Ceph集群当中所有的CephFs文件系统以及相关信息
+$ ceph fs ls
+
+# 创建cephfs文件系统
+注意：文件系统的名字可以随便指定，这个名称就是供客户端使用挂载的目录名称，所以这个文件系统可以创建多个
+#$ ceph fs flag set enable_multiple true(创建其它文件系统（名字不叫cephfs）需要先执行这个命令)
+#$ ceph fs volume create aaafs（创建一个aaafs文件系统，这个文件系统会默认创建两个存储池）
+$ ceph fs new cephfs <元数据存储所在池名称> <数据存储所在池名称>
+
+# cephfs文件系统最多使用2个Ceph Metadata Server(MDS)元数据存储节点作为主要活动节点
+$ ceph fs set cephfs max_mds 2
+
+# cephfs文件系统使用1个Ceph Metadata Server(MDS)元数据存储节点作为备用节点
+$ ceph fs set cephfs standby_count_wanted 1
+```
+
+##### 11.1、删除CephFs文件系统
+```bash
+# 标记名字叫cephfs的文件系统为禁用状态
+$ ceph fs fail cephfs
+bbbfs marked not joinable; MDS cannot join the cluster. All MDS ranks marked failed.
+
+# 删除名字叫cephfs的文件系统，--yes-i-really-mean-it表示强制删除（注意：文件系统上的数据也将被删除）
+ceph fs rm cephfs --yes-i-really-mean-it
+```
+
 #### 十、创建cephfs文件系统元数据存储服务（Ceph Metadata Server(MDS)）
 ```bash
 # 创建cephfs文件系统
