@@ -19,22 +19,23 @@ $ ssh root@server001 "sudo ceph config generate-minimal-conf" | sudo tee /etc/ce
 $ chmod 644 /etc/ceph/ceph.conf
 ```
 
-#### 三、创建访问Ceph集群授权Key文件（就是客户端访问集群的Token文件，这个文件的内容我们事先应该在Ceph集群上创建好，以供客户端使用）
+#### 三、创建访问Ceph文件系统授权Key文件（就是客户端访问Ceph集群Token文件，这个文件的内容我们事先应该在Ceph集群上创建好，以供客户端使用）
 ```bash
-$ cat >>/etc/ceph/ceph.client.my_pool.keyring<<EOF
-[client.my_pool]
-        key = AQCdgKhhPxHKERAAA7TEsWOiY0wi9kwrc039Uw==
+# client.client_cephfs是用户名， key是秘钥
+$ cat >>/etc/ceph/ceph.client.client_cephfs.keyring<<EOF
+[client.client_cephfs]
+        key = AQA87qlh0ZVzGBAAjPv3hPV6ar+XXEKbo55Cpw==
 EOF  
 
 # 添加权限
-$ chmod 600 /etc/ceph/ceph.client.my_pool.keyring
+$ chmod 600 /etc/ceph/ceph.client.client_cephfs.keyring
 ```
 
 #### 四、挂载 Ceph 文件系统
 ```bash
 # 查看Ceph集群信息
-# --name 指定用户名（注意：这个用户名必须在访问Ceph集群授权Key文件当中存在）
-$ ceph --name client.my_pool -s
+# --name 指定访问Ceph集群用户名（注意：如果是Ceph文件系统访问用户，一般是没有Ceph集群信息访问权限的）
+$ ceph --name client.client_cephfs
 
 # 创建一个目录用于挂载Ceph文件系统
 $ mkdir -p /home/mycephfs
@@ -44,5 +45,8 @@ $ mkdir -p /home/mycephfs
 # /home/mycephfs 客户端要挂载Ceph文件系统的目录
 # name           指定Ceph集群授权用户
 # fs             指定Ceph文件系统名称（我们的Ceph集群可能创建了多个文件系统）
-$ mount -t ceph :/ /home/mycephfs -o name=my_pool,fs=cephfs
+$ mount -t ceph :/ /home/mycephfs -o name=client_cephfs,fs=cephfs
+
+# 解除挂载
+$ umount /home/mycephfs
 ```
