@@ -18,7 +18,7 @@
 #### 七、[客户端用户授权管理（生成客户端用户使用Ceph集群所需要的Token）][6]
 #### 八、[Ceph客户端简单使用][7]
 #### 九、[集群服务管理相关（停止，启动，重启相关服务）][8]
-#### 十、[WEB管理界面出现警告或错误相关处理][9]
+#### 十、[WEB管理界面出现警告或错误相关处理包括禁用警告或错误提示][9]
 
 ![image](https://github.com/firechiang/ceph-study/blob/master/image/ceph-framework.jpg)
 
