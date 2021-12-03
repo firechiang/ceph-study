@@ -1,4 +1,5 @@
 #### 一、创建存储池[官方中文文档](http://docs.ceph.org.cn/rados/operations/pools/)
+##### （注意：以下命令在装有Cephadm工具的节点上执行）
 ```bash
 # 查看集群当中所有存储池
 $ ceph osd lspools
@@ -39,18 +40,4 @@ $ ceph config set mon mon_allow_pool_delete true
 # 删除名字叫test_pool的存储池
 # --yes-i-really-really-mean-it 表示强制删除
 $ ceph osd pool delete test_pool test_pool 
-```
-
-##### 3.2、重启MON集群健康协调服务
-```bash
-$ ceph orch restart mon
-Scheduled to restart mon.server001 on host 'server001'
-Scheduled to restart mon.server002 on host 'server002'
-Scheduled to restart mon.server003 on host 'server003'
-```
-
-##### 3.3、删除名字叫test_pool的存储池
-```bash
-# 删除test_pool存储池
-$ ceph osd pool delete 
 ```

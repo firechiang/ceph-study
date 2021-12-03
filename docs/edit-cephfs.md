@@ -1,4 +1,5 @@
 #### 一、创建CephFs文件系统（注意：创建文件系统之前Ceph集群里面必须存在Ceph Metadata Server(MDS)（文件系统元数据存储服务集群））
+##### （注意：以下命令在装有Cephadm工具的节点上执行）
 ```bash
 # 查看Ceph集群当中所有的CephFs文件系统以及相关信息
 $ ceph fs ls
